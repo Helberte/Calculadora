@@ -46,34 +46,84 @@ function clearDisplay(disp) {
     disp.style.fontSize = '65px';
 }
 function teclasClick(li) {
+    var _a, _b, _c, _d, _e;
     if (li.classList.contains('tecla-numerica')) {
         if (li.textContent) {
             changeDisplay(li.textContent);
         }
     }
+    else if (li.classList.contains('tecla-virgula')) {
+        if (li.textContent) {
+            if (!((_a = display.textContent) === null || _a === void 0 ? void 0 : _a.includes(','))) {
+                console.log('contém virgula');
+                display.innerHTML += ',';
+            }
+        }
+    }
     else if (li.classList.contains('tecla-divisao')) {
-        startValue = Number(display.textContent);
+        startValue = Number((_b = display.textContent) === null || _b === void 0 ? void 0 : _b.replace(',', '.'));
         operation = '/';
         clear = 0;
     }
+    else if (li.classList.contains('tecla-multipli')) {
+        startValue = Number((_c = display.textContent) === null || _c === void 0 ? void 0 : _c.replace(',', '.'));
+        operation = 'x';
+        clear = 0;
+    }
+    else if (li.classList.contains('tecla-subtracao')) {
+        startValue = Number((_d = display.textContent) === null || _d === void 0 ? void 0 : _d.replace(',', '.'));
+        operation = '-';
+        clear = 0;
+    }
+    else if (li.classList.contains('tecla-adicao')) {
+        startValue = Number((_e = display.textContent) === null || _e === void 0 ? void 0 : _e.replace(',', '.'));
+        operation = '+';
+        clear = 0;
+    }
     else if (li.classList.contains('tecla-igualdade')) {
-        let result;
         if (operation === '/') {
-            console.log(operation + '\n primeiro valor: ' + startValue + '\n segundo valor' + Number(display.textContent));
-            let total = startValue / Number(display.textContent);
-            var valorDisplay;
-            operation = '';
-            clear = 0;
-            display.innerHTML = total.toString();
-            if (total.toString().length >= 13) {
-                valorDisplay = total.toString().substring(0, 10);
-                console.log(valorDisplay);
-            }
-            ajustSizeDisplay(valorDisplay);
+            display.innerHTML = realizaOperacao('/').replace('.', ',');
+            ajustSizeDisplay((display.textContent) ? display.textContent : '');
+        }
+        else if (operation === 'x') {
+            display.innerHTML = realizaOperacao('x').replace('.', ',');
+            ajustSizeDisplay((display.textContent) ? display.textContent : '');
+        }
+        else if (operation === '-') {
+            display.innerHTML = realizaOperacao('-').replace('.', ',');
+            ajustSizeDisplay((display.textContent) ? display.textContent : '');
+        }
+        else if (operation === '+') {
+            display.innerHTML = realizaOperacao('+').replace('.', ',');
+            ajustSizeDisplay((display.textContent) ? display.textContent : '');
         }
     }
     else if (li.textContent === "C") {
+        operation = '';
+        clear = 0;
         clearDisplay(display);
+    }
+}
+function realizaOperacao(operador) {
+    var _a, _b, _c, _d;
+    let total;
+    operation = '';
+    clear = 0;
+    switch (operador) {
+        case '/':
+            total = startValue / Number((_a = display.textContent) === null || _a === void 0 ? void 0 : _a.replace(',', '.'));
+            return (String(total).length >= 13) ? String(total).substring(0, 16) : String(total);
+        case 'x':
+            total = startValue * Number((_b = display.textContent) === null || _b === void 0 ? void 0 : _b.replace(',', '.'));
+            return (String(total).length >= 13) ? String(total).substring(0, 16) : String(total);
+        case '-':
+            total = startValue - Number((_c = display.textContent) === null || _c === void 0 ? void 0 : _c.replace(',', '.'));
+            return (String(total).length >= 13) ? String(total).substring(0, 16) : String(total);
+        case '+':
+            total = startValue + Number((_d = display.textContent) === null || _d === void 0 ? void 0 : _d.replace(',', '.'));
+            return (String(total).length >= 13) ? String(total).substring(0, 16) : String(total);
+        default:
+            return '';
     }
 }
 function addClickAndLis(teste) {

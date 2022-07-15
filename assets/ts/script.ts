@@ -20,8 +20,7 @@ function changeDisplay(valor: string) : void{
           display.innerHTML += valor;          
         }
       } 
-    }  
-    
+    }      
 
   }else{
     if(display.textContent === '0'){
@@ -57,47 +56,97 @@ function teclasClick(li: Element){
       changeDisplay(li.textContent);
     }
   }
+  else if(li.classList.contains('tecla-virgula')){
+    if(li.textContent){
+      if(!display.textContent?.includes(',')){
+        console.log('contém virgula');
+        display.innerHTML += ',';
+      }      
+    }
+  }
   else if(li.classList.contains('tecla-divisao')){
     
-    startValue = Number(display.textContent);
+    startValue = Number(display.textContent?.replace(',','.'));
     operation = '/';
     clear = 0;
   }
-  else if(li.classList.contains('tecla-igualdade')){
-    let result: string;
+  else if(li.classList.contains('tecla-multipli')){
     
+    startValue = Number(display.textContent?.replace(',','.'));
+    operation = 'x';
+    clear = 0;
+  }
+  else if(li.classList.contains('tecla-subtracao')){
+    
+    startValue = Number(display.textContent?.replace(',','.'));
+    operation = '-';
+    clear = 0;
+  }
+  else if(li.classList.contains('tecla-adicao')){
+    
+    startValue = Number(display.textContent?.replace(',','.'));
+    operation = '+';
+    clear = 0;
+  }
+  else if(li.classList.contains('tecla-igualdade')){
+   
     if(operation === '/'){
-
-      console.log(operation + '\n primeiro valor: ' + startValue + '\n segundo valor' + Number(display.textContent))
-
-      let total: number = startValue / Number(display.textContent);
-      var valorDisplay: string;
-
-      operation = '';
-      clear = 0;
-      display.innerHTML = total.toString();
-
-     
-      if(total.toString().length >= 13){
-        valorDisplay = total.toString().substring(0,10);
-        console.log(valorDisplay);
-      }
-     
-      ajustSizeDisplay(valorDisplay);
+      display.innerHTML = realizaOperacao('/').replace('.',',');          
+      ajustSizeDisplay((display.textContent) ? display.textContent : '');
     }
-     
+    else
+    if(operation === 'x'){   
+      display.innerHTML = realizaOperacao('x').replace('.',',');          
+      ajustSizeDisplay((display.textContent) ? display.textContent : '');
+    }
+    else
+    if(operation === '-'){   
+      display.innerHTML = realizaOperacao('-').replace('.',',');          
+      ajustSizeDisplay((display.textContent) ? display.textContent : '');
+    }
+    else
+    if(operation === '+'){   
+      display.innerHTML = realizaOperacao('+').replace('.',',');          
+      ajustSizeDisplay((display.textContent) ? display.textContent : '');
+    }
   }
   else 
   if (li.textContent === "C"){
+    operation = '';
+    clear = 0;
     clearDisplay(display);
   }
 }
 
+function realizaOperacao(operador: string) : string{
+  let total: number;
+ 
+  operation = '';
+  clear = 0; 
+
+  switch (operador) {
+    case '/':      
+      total = startValue / Number(display.textContent?.replace(',','.'));           
+      return (String(total).length >= 13) ? String(total).substring(0,16) : String(total);        
+    case 'x':
+      total = startValue * Number(display.textContent?.replace(',','.'));     
+      return (String(total).length >= 13) ? String(total).substring(0,16) : String(total);  
+    case '-':
+      total = startValue - Number(display.textContent?.replace(',','.'));     
+      return (String(total).length >= 13) ? String(total).substring(0,16) : String(total);
+    case '+':
+      total = startValue + Number(display.textContent?.replace(',','.'));     
+      return (String(total).length >= 13) ? String(total).substring(0,16) : String(total);
+    default:
+      return '';  
+  }
+}
+
+
 function addClickAndLis(teste: HTMLCollection) : void{
   for(let i = 0; i < tecla.length; i++){
     teste[i].addEventListener('click', function (){
-      
-    
+          
       teclasClick(teste[i]);
     });    
   }
