@@ -113,10 +113,24 @@ body{
   background-color: rgb(244, 158, 63);
 }
 .numbers-symbols .rows ul .centrais-end:hover{
+  
   background-color: rgb(185, 136, 82);
 }
 .numbers-symbols .rows ul .centrais-end:active{
+  background-color: rgb(194, 149, 100);
+}
+.numbers-symbols .rows ul .teclas-3:hover{
   background-color: rgb(185, 136, 82);
+}
+.numbers-symbols .rows ul .teclas-3:active{
+  background-color: rgb(194, 149, 100);
+}
+.numbers-symbols .rows ul .tecla-igualdade:hover{
+  
+  background-color: rgb(185, 136, 82);
+}
+.numbers-symbols .rows ul .tecla-igualdade:active{
+  background-color: rgb(194, 149, 100);
 }
 .numbers-symbols .rows ul .teclas-finais{
   flex: 1;
