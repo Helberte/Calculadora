@@ -110,6 +110,30 @@ function teclasClick(li: Element){
       ajustSizeDisplay((display.textContent) ? display.textContent : '');
     }
   }
+  else if(li.classList.contains('tecla-porcentagem')){
+
+    if(operation){
+      
+      if(operation === 'x'){   
+        display.innerHTML = realizaOperacao('x-%').replace('.',',');          
+        ajustSizeDisplay((display.textContent) ? display.textContent : '');
+      }
+      else
+      if(operation === '+'){   
+        display.innerHTML = realizaOperacao('+-%').replace('.',',');          
+        ajustSizeDisplay((display.textContent) ? display.textContent : '');
+      }
+      else
+      if(operation === '-'){   
+        display.innerHTML = realizaOperacao('--%').replace('.',',');          
+        ajustSizeDisplay((display.textContent) ? display.textContent : '');
+      }
+
+    }else{
+      display.innerHTML = realizaOperacao('%').replace('.',',');          
+      ajustSizeDisplay((display.textContent) ? display.textContent : '');
+    }    
+  }
   else 
   if (li.textContent === "C"){
     operation = '';
@@ -136,6 +160,27 @@ function realizaOperacao(operador: string) : string{
       return (String(total).length >= 13) ? String(total).substring(0,16) : String(total);
     case '+':
       total = startValue + Number(display.textContent?.replace(',','.'));     
+      return (String(total).length >= 13) ? String(total).substring(0,16) : String(total);
+    case '%':      
+      total = Number(display.textContent?.replace(',','.')) / 100; 
+      return (String(total).length >= 13) ? String(total).substring(0,16) : String(total);
+
+    case 'x-%': // representa quando for uma operação do tipo 160 x 2%
+      let valor2: number = Number(display.textContent?.replace(',','.'));  
+      total = (valor2 / 100) * startValue;
+      return (String(total).length >= 13) ? String(total).substring(0,16) : String(total);
+
+    case '+-%':
+      let adicaoValor2: number = Number(display.textContent?.replace(',','.'));  
+      let resultParcial: number = (adicaoValor2 / 100) * startValue;
+      total = startValue + resultParcial;
+      return (String(total).length >= 13) ? String(total).substring(0,16) : String(total);
+
+    case '--%':
+      let subtracaoValor2: number = Number(display.textContent?.replace(',','.'));  
+      let resultParcialSubtracao: number = (subtracaoValor2 / 100) * startValue;
+      total = startValue - resultParcialSubtracao;
+
       return (String(total).length >= 13) ? String(total).substring(0,16) : String(total);
     default:
       return '';  

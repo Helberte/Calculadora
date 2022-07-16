@@ -98,6 +98,26 @@ function teclasClick(li) {
             ajustSizeDisplay((display.textContent) ? display.textContent : '');
         }
     }
+    else if (li.classList.contains('tecla-porcentagem')) {
+        if (operation) {
+            if (operation === 'x') {
+                display.innerHTML = realizaOperacao('x-%').replace('.', ',');
+                ajustSizeDisplay((display.textContent) ? display.textContent : '');
+            }
+            else if (operation === '+') {
+                display.innerHTML = realizaOperacao('+-%').replace('.', ',');
+                ajustSizeDisplay((display.textContent) ? display.textContent : '');
+            }
+            else if (operation === '-') {
+                display.innerHTML = realizaOperacao('--%').replace('.', ',');
+                ajustSizeDisplay((display.textContent) ? display.textContent : '');
+            }
+        }
+        else {
+            display.innerHTML = realizaOperacao('%').replace('.', ',');
+            ajustSizeDisplay((display.textContent) ? display.textContent : '');
+        }
+    }
     else if (li.textContent === "C") {
         operation = '';
         clear = 0;
@@ -105,7 +125,7 @@ function teclasClick(li) {
     }
 }
 function realizaOperacao(operador) {
-    var _a, _b, _c, _d;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
     let total;
     operation = '';
     clear = 0;
@@ -121,6 +141,23 @@ function realizaOperacao(operador) {
             return (String(total).length >= 13) ? String(total).substring(0, 16) : String(total);
         case '+':
             total = startValue + Number((_d = display.textContent) === null || _d === void 0 ? void 0 : _d.replace(',', '.'));
+            return (String(total).length >= 13) ? String(total).substring(0, 16) : String(total);
+        case '%':
+            total = Number((_e = display.textContent) === null || _e === void 0 ? void 0 : _e.replace(',', '.')) / 100;
+            return (String(total).length >= 13) ? String(total).substring(0, 16) : String(total);
+        case 'x-%': // representa quando for uma operação do tipo 160 x 2%
+            let valor2 = Number((_f = display.textContent) === null || _f === void 0 ? void 0 : _f.replace(',', '.'));
+            total = (valor2 / 100) * startValue;
+            return (String(total).length >= 13) ? String(total).substring(0, 16) : String(total);
+        case '+-%':
+            let adicaoValor2 = Number((_g = display.textContent) === null || _g === void 0 ? void 0 : _g.replace(',', '.'));
+            let resultParcial = (adicaoValor2 / 100) * startValue;
+            total = startValue + resultParcial;
+            return (String(total).length >= 13) ? String(total).substring(0, 16) : String(total);
+        case '--%':
+            let subtracaoValor2 = Number((_h = display.textContent) === null || _h === void 0 ? void 0 : _h.replace(',', '.'));
+            let resultParcialSubtracao = (subtracaoValor2 / 100) * startValue;
+            total = startValue - resultParcialSubtracao;
             return (String(total).length >= 13) ? String(total).substring(0, 16) : String(total);
         default:
             return '';
